@@ -17,13 +17,11 @@ class News extends Model
         'content',
         'image',
         'status',
-        'is_published',
         'published_at'
     ];
     
     protected $casts = [
         'published_at' => 'datetime',
-        'is_published' => 'boolean'
     ];
 
     /**

@@ -55,7 +55,6 @@ class NewsController extends Controller
             'content' => $request->content,
             'image' => $imagePath,
             'status' => $request->status,
-            'is_published' => $request->status === 'published',
             'published_at' => $publishedAt
         ]);
 
@@ -101,7 +100,6 @@ class NewsController extends Controller
             'title' => $request->title,
             'content' => $request->content,
             'status' => $request->status,
-            'is_published' => $request->status === 'published',
             'published_at' => $publishedAt
         ];
         

@@ -4,14 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Potential extends Model
 {
     use HasFactory;
 
-    // nama tabel (opsional kalau sama dengan plural model: 'potentials')
-    protected $table = 'potential';
     public $timestamps = false;
 
     protected $fillable = [
