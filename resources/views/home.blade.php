@@ -6,6 +6,23 @@
     <title>Desa Trengguli - Desa Asri Penuh Kearifan Lokal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/trengguli.css') }}">
+
+    <style>
+        /* Tambahkan jarak kanan kiri pada section potensi */
+        .potensi {
+            padding-left: 32px;
+            padding-right: 32px;
+            padding-bottom: 16px;
+            padding-top: 8px;
+        }
+        
+        @media (max-width: 800px) {
+            .potensi {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+        }
+        </style>
 </head>
 <body>
     <!-- Preloader -->
@@ -28,6 +45,7 @@
                     <li><a href="#home">Beranda</a></li>
                     <li><a href="#about">Profil Desa</a></li>
                     <li><a href="#services">Layanan</a></li>
+                    <li><a href="#potentials">Potensi Desa</a></li>
                     <li><a href="#news">Berita</a></li>
                     <li><a href="#gallery">Galeri</a></li>
                     <li><a href="#contact">Kontak</a></li>
@@ -80,45 +98,42 @@
                         @endif
                     </div>
                 </div>
-                
+            </section>
+
+            <section class="potensi" id="potentials">
                 <div class="potensi">
-                    <h3>Potensi Unggulan Desa</h3>
+                    <h2 class="section-title">Potensi Unggulan Desa</h2>
                     <div class="potensi-grid">
-                        <div class="potensi-card">
-                            <div class="potensi-img">
-                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8b6da126-3584-413d-88f0-f8eece84ebaa.png" alt="Lahan pertanian organik di Desa Trengguli dengan sawah berundak dan petani sedang bekerja" />
+                        @foreach($potentials->take(3) as $potential)
+                            <div class="potensi-card">
+                                <a href="{{ route('potential.detail', $potential->id) }}">
+                                    <div class="potensi-img">
+                                        <img src="{{ asset('storage/' . $potential->image) }}" alt="{{ $potential->title }}">
+
+                                    </div>
+                                </a>
+                                <div class="potensi-desc">
+                                    <h3>{{ $potential->title }}</h3>
+                                    <p>{{ Str::limit(strip_tags($potential->content), 150) }}</p>
+                                </div>
                             </div>
-                            <div class="potensi-desc">
-                                <h3>Pertanian Organik</h3>
-                                <p>Padi, sayuran, dan buah-buahan organik dengan kualitas terbaik yang diproduksi secara tradisional.</p>
+                        @endforeach
+            
+                        @if($potentials->count() == 0)
+                            <div class="col-span-full text-center py-12 text-gray-500">
+                                Belum ada potensi desa yang ditambahkan.
                             </div>
-                        </div>
-                        
-                        <div class="potensi-card">
-                            <div class="potensi-img">
-                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3eaed2aa-57d1-423c-ad51-b0bddd098dcb.png" alt="Kerajinan tangan anyaman bambu khas Desa Trengguli yang sedang dibuat oleh pengrajin lokal" />
-                            </div>
-                            <div class="potensi-desc">
-                                <h3>Kerajinan Tangan</h3>
-                                <p>Berbagai produk anyaman bambu dan kerajinan kayu dengan motif tradisional yang unik.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="potensi-card">
-                            <div class="potensi-img">
-                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6e590868-3cdc-48d3-bf2a-5207ba1303d8.png" alt="Wisata air terjun alami di Desa Trengguli dengan pemandangan hutan hijau yang asri" />
-                            </div>
-                            <div class="potensi-desc">
-                                <h3>Wisata Alam</h3>
-                                <p>Air terjun, persawahan, dan jalur trekking dengan panorama alam yang memukau.</p>
-                            </div>
-                        </div>
+                        @endif
                     </div>
+            
+                    @if($potentials->count() > 3)
+                    <div class="potensi-more" style="text-align:right;margin-top:20px;">
+                        <a href="{{ route('potential.all') }}" class="btn">Lihat Semua Potensi Desa</a>
+                    </div>
+                    @endif
                 </div>
-            </div>
-        </div>
-    </section>
-    
+            </section>
+
     <!-- News Section -->
     <section class="news" id="news">
         <div class="container">
@@ -131,7 +146,7 @@
                         <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" />
                     </div>
                     <div class="news-content">
-                        <div class="news-date">{{ $item->published_at->locale('id')->isoFormat('D MMMM Y') }}</div>
+                        <div class="news-date">{{ $item->published_at?->locale('id')->isoFormat('D MMMM Y') ?? 'Tanggal belum ditentukan' }}</div>
                         <h3 class="news-title">{{ $item->title }}</h3>
                         <p class="news-excerpt">{{ Str::limit(strip_tags($item->content), 150) }}</p>
                         <a href="{{ route('news.detail', $item->slug) }}" class="btn btn-outline">Baca Selengkapnya</a>
@@ -145,7 +160,7 @@
             </div>
             
             <div class="news-more">
-                <a href="#" class="btn">Lihat Semua Berita</a>
+                <a href="{{ route('news') }}" class="btn">Lihat Semua Berita</a>
             </div>
         </div>
     </section>
@@ -194,7 +209,7 @@
             </div>
             
             <div class="see-more">
-                <a href="#" class="btn">Lihat Galeri Lengkap</a>
+                <a href="{{ route('gallery') }}" class="btn">Lihat Galeri Lengkap</a>
             </div>
         </div>
     </section>

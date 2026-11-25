@@ -50,7 +50,7 @@
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {{ $item->published_at->format('d M Y') }}
+                        {{ $item->published_at?->format('d M Y') ?? '-' }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                         <div class="flex space-x-2">

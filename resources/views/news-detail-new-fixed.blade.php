@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -96,4 +96,4 @@
         <a href="{{ url()->previous() }}" class="btn back-btn"><i class="fas fa-arrow-left"></i> Kembali</a>
     </div>
 </body>
-</html>
+</html> --}}

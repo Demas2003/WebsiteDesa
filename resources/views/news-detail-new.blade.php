@@ -53,7 +53,7 @@
     @include('components.header')
     <div class="container" style="margin-top: 120px; margin-bottom: 40px;">
         <h1 class="news-title">{{ $news->title }}</h1>
-        <div class="news-date">{{ $news->published_at->locale('id')->isoFormat('D MMMM Y') }}</div>
+        <div class="news-date">{{ $news->published_at?->locale('id')->isoFormat('D MMMM Y') ?? 'Tanggal belum ditentukan' }}</div>
         <div class="news-meta">
             <span><i class="fas fa-eye"></i> {{ $news->view_count }} kali dilihat</span>
         </div>
@@ -120,7 +120,7 @@
     function showAdminLoginBtn() {
         var btn = document.getElementById('adminLoginBtn');
         if (window.innerWidth >= 992) {
-            btn.style.display = 'flex';
+            btn.style.display = 'flex';  
         } else {
             btn.style.display = 'none';
         }

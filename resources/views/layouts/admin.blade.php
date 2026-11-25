@@ -35,6 +35,13 @@
                 <i class="fas fa-images"></i>
                 <span>Galeri</span>
             </a>
+
+            <a href="{{ route('admin.potential.index') }}" 
+   class="flex items-center space-x-2 px-6 py-3 hover:bg-green-700 {{ request()->routeIs('admin.potential.*') ? 'bg-green-700' : '' }}">
+    <i class="fas fa-seedling"></i>
+    <span>Potensi Desa</span>
+</a>
+
             
             <a href="{{ route('admin.services.index') }}" class="flex items-center space-x-2 px-6 py-3 hover:bg-green-700 {{ request()->routeIs('admin.services.*') ? 'bg-green-700' : '' }}">
                 <i class="fas fa-cog"></i>

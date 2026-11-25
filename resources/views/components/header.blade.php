@@ -15,12 +15,13 @@
         
         <nav id="nav">
             <ul>
-                <li><a href="#home">Beranda</a></li>
-                <li><a href="#about">Profil Desa</a></li>
-                <li><a href="#services">Layanan</a></li>
-                <li><a href="#news">Berita</a></li>
-                <li><a href="#gallery">Galeri</a></li>
-                <li><a href="#contact">Kontak</a></li>
+                <li><a href="{{ url('/') }}#home">Beranda</a></li>
+                <li><a href="{{ url('/') }}#about">Profil Desa</a></li>
+                <li><a href="{{ url('/') }}#services">Layanan</a></li>
+                <li><a href="{{ url('/') }}#potentials">Potensi Desa</a></li>
+                <li><a href="{{ route('news') }}">Berita</a></li>
+                <li><a href="{{ route('gallery') }}">Galeri</a></li>
+                <li><a href="{{ url('/') }}#contact">Kontak</a></li>
             </ul>
         </nav>
         <a href="/admin/login" class="btn" style="margin-left:24px;display:none;align-items:center;gap:8px;" id="adminLoginBtn">

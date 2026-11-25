@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\PotentialController;
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -14,10 +15,13 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('news', NewsController::class);
     
     // Gallery Management
-    Route::resource('gallery', GalleryController::class);
+    Route::resource('gallery', GalleryController::class)->except(['show']);
     
     // Services Management
-    Route::resource('services', ServiceController::class);
+    Route::resource('services', ServiceController::class)->except(['show']);
+    
+    // Potential Management
+    Route::resource('potential', PotentialController::class);
     
     // Village Profile Management
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');

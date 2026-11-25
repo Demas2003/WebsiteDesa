@@ -17,6 +17,7 @@ class News extends Model
         'content',
         'image',
         'status',
+        'is_published',
         'published_at'
     ];
     
@@ -24,6 +25,20 @@ class News extends Model
         'published_at' => 'datetime',
         'is_published' => 'boolean'
     ];
+
+    /**
+     * Berita yang boleh tampil di halaman publik:
+     * statusnya "published" dan tanggal publikasinya sudah lewat
+     * (atau tidak diisi, supaya berita lama tetap tampil).
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published')
+            ->where(function ($query) {
+                $query->whereNull('published_at')
+                    ->orWhere('published_at', '<=', now());
+            });
+    }
     
     protected static function boot()
     {

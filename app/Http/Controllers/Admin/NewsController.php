@@ -43,6 +43,11 @@ class NewsController extends Controller
         $imagePath = $request->file('image')->store('news', 'public');
         
         $excerpt = Str::limit(strip_tags($request->content), 150);
+
+        $publishedAt = $request->published_at;
+        if ($request->status === 'published' && ! $publishedAt) {
+            $publishedAt = now();
+        }
         
         News::create([
             'title' => $request->title,
@@ -50,7 +55,8 @@ class NewsController extends Controller
             'content' => $request->content,
             'image' => $imagePath,
             'status' => $request->status,
-            'published_at' => $request->published_at
+            'is_published' => $request->status === 'published',
+            'published_at' => $publishedAt
         ]);
 
         return redirect()->route('admin.news.index')
@@ -86,11 +92,17 @@ class NewsController extends Controller
             'published_at' => 'nullable|date'
         ]);
         
+        $publishedAt = $request->published_at ?? $news->published_at;
+        if ($request->status === 'published' && ! $publishedAt) {
+            $publishedAt = now();
+        }
+
         $data = [
             'title' => $request->title,
             'content' => $request->content,
             'status' => $request->status,
-            'published_at' => $request->published_at
+            'is_published' => $request->status === 'published',
+            'published_at' => $publishedAt
         ];
         
         // Generate excerpt from content

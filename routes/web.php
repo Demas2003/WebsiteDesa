@@ -8,12 +8,19 @@ error_reporting(E_ALL);
     use App\Http\Controllers\Admin\NewsController;
     use App\Http\Controllers\Admin\GalleryController;
     use App\Http\Controllers\Admin\ServiceController;
+    use App\Http\Controllers\Admin\PotentialController;
+    use App\Http\Controllers\HomeController;
+    
+
 
     // Frontend Routes
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/berita', [App\Http\Controllers\HomeController::class, 'news'])->name('news');
     Route::get('/berita/{slug}', [App\Http\Controllers\HomeController::class, 'newsDetail'])->name('news.detail');
     Route::get('/galeri', [App\Http\Controllers\HomeController::class, 'gallery'])->name('gallery');
+    Route::get('/potensi/{id}', [App\Http\Controllers\HomeController::class, 'potentialDetail'])->name('potential.detail');
+    Route::get('/potensi-desa', [HomeController::class, 'allPotentials'])->name('potential.all');
+
 
     // Admin Routes
     Route::prefix('admin')->group(function () {
@@ -27,7 +34,15 @@ error_reporting(E_ALL);
             
             // Resource Routes
             Route::resource('news', NewsController::class);
-            Route::resource('gallery', GalleryController::class);
-            Route::resource('services', ServiceController::class);
+            Route::resource('gallery', GalleryController::class)->except(['show']);
+            Route::resource('services', ServiceController::class)->except(['show']);
+
+            
+
+
         });
+
+        
     });
+
+    
