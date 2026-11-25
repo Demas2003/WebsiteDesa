@@ -173,7 +173,7 @@
             height: 100vh;
             min-height: 600px;
             background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-                        url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/58327d3e-2e2e-480d-b400-9a3c1feef5ff.png') no-repeat center center/cover;
+                        url('../img/hero.jpeg') no-repeat center center/cover;
             display: flex;
             align-items: center;
             color: white;
