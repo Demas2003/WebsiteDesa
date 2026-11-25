@@ -41,13 +41,40 @@ class News extends Model
     protected static function boot()
     {
         parent::boot();
-        
-        static::creating(function ($news) {
-            $news->slug = Str::slug($news->title);
+
+        static::creating(function (News $news) {
+            $news->slug = static::generateUniqueSlug($news->title);
         });
-        
-        static::updating(function ($news) {
-            $news->slug = Str::slug($news->title);
+
+        static::updating(function (News $news) {
+            if ($news->isDirty('title')) {
+                $news->slug = static::generateUniqueSlug($news->title, $news->getKey());
+            }
         });
+    }
+
+    /**
+     * Buat slug unik dari judul. Jika sudah dipakai, tambahkan -2, -3, dst.
+     */
+    public static function generateUniqueSlug(string $title, ?int $ignoreId = null): string
+    {
+        $base = Str::slug($title) ?: 'berita';
+        $slug = $base;
+        $suffix = 1;
+
+        while (true) {
+            $query = static::where('slug', $slug);
+
+            if ($ignoreId) {
+                $query->where('id', '!=', $ignoreId);
+            }
+
+            if (! $query->exists()) {
+                return $slug;
+            }
+
+            $suffix++;
+            $slug = $base.'-'.$suffix;
+        }
     }
 }

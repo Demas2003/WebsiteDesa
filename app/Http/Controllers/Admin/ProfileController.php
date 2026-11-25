@@ -22,9 +22,13 @@ class ProfileController extends Controller
             'vision' => 'required|string',
             'mission' => 'required|string',
             'address' => 'required|string',
-            'phone' => 'required|string',
-            'email' => 'required|email',
-            'office_hours' => 'required|string',
+            'phone' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'office_hours' => 'required|string|max:255',
+            'facebook' => 'nullable|string|max:255',
+            'instagram' => 'nullable|string|max:255',
+            'youtube' => 'nullable|string|max:255',
+            'whatsapp' => 'nullable|string|max:20',
         ]);
 
         $profile = Profile::first();

@@ -12,7 +12,7 @@
     <div class="fixed inset-y-0 left-0 w-64 bg-green-800 text-white transition-all duration-300" id="sidebar">
         <div class="flex items-center justify-between p-4 border-b border-green-700">
             <div class="flex items-center space-x-2">
-                <img src="{{ asset('logo.png') }}" alt="Logo" class="w-8 h-8">
+                <i class="fas fa-seedling text-xl"></i>
                 <span class="font-semibold">Admin Panel</span>
             </div>
             <button class="lg:hidden" onclick="toggleSidebar()">
@@ -52,8 +52,13 @@
                 <i class="fas fa-building"></i>
                 <span>Profil Desa</span>
             </a>
+
+            <a href="{{ route('admin.password.edit') }}" class="flex items-center space-x-2 px-6 py-3 hover:bg-green-700 {{ request()->routeIs('admin.password.*') ? 'bg-green-700' : '' }}">
+                <i class="fas fa-key"></i>
+                <span>Ubah Password</span>
+            </a>
             
-            <a href="#" id="logout-link" class="w-full flex items-center space-x-2 px-6 py-3 hover:bg-green-700 text-left mt-auto">
+            <a href="#" id="logout-link" class="w-full flex items-center space-x-2 py-3 px-6 hover:bg-green-700 text-left mt-auto">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Logout</span>
             </a>

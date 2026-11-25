@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Profile;
 use App\Models\Potential;
+use App\Rules\GoogleMapsUrl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -38,8 +38,7 @@ class PotentialController extends Controller
             'title'   => 'required|string|max:255',
             'content' => 'required|string',
             'image'   => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'map_url' => 'nullable|url', 
-            
+            'map_url' => ['nullable', 'url', new GoogleMapsUrl()],
         ]);
 
         $imagePath = $this->handleImageUpload($request);
@@ -83,7 +82,7 @@ class PotentialController extends Controller
             'title'   => 'required|string|max:255',
             'content' => 'required|string',
             'image'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'map_url' => 'nullable|url',
+            'map_url' => ['nullable', 'url', new GoogleMapsUrl()],
         ]);
 
         $data = [
@@ -135,22 +134,7 @@ class PotentialController extends Controller
     private function handleImageUpload(Request $request): ?string
     {
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $image = $request->file('image');
-
-            // Bersihkan nama file dan tambahkan timestamp
-            $imageName = time() . '_' . preg_replace('/[^A-Za-z0-9\-_\.]/', '', $image->getClientOriginalName());
-
-            // Folder tujuan
-            $destinationPath = storage_path('app/public/potentials');
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0777, true);
-            }
-
-            // Pindahkan file ke folder
-            $image->move($destinationPath, $imageName);
-
-            // Return path relatif untuk database
-            return 'potentials/' . $imageName;
+            return $request->file('image')->store('potentials', 'public');
         }
 
         return null;

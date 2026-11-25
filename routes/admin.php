@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\PasswordController;
 use App\Http\Controllers\Admin\PotentialController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -12,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->name('admin.')->group(function () {
     // Autentikasi
     Route::get('login', [AdminController::class, 'showLoginForm'])->name('login');
-    Route::post('login', [AdminController::class, 'login'])->name('login.submit');
+    Route::post('login', [AdminController::class, 'login'])
+        ->middleware('throttle:admin-login')
+        ->name('login.submit');
 
     Route::middleware('auth')->group(function () {
         Route::post('logout', [AdminController::class, 'logout'])->name('logout');
@@ -28,5 +31,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Village Profile Management
         Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+
+        // Ubah Password
+        Route::get('password', [PasswordController::class, 'edit'])->name('password.edit');
+        Route::put('password', [PasswordController::class, 'update'])->name('password.update');
     });
 });

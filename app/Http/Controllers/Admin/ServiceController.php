@@ -24,12 +24,12 @@ class ServiceController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'icon' => 'required|string',
+            'icon' => 'required|string|max:255',
             'status' => 'required|in:active,inactive',
             'order' => 'required|integer|min:0'
         ]);
 
-        Service::create($request->all());
+        Service::create($request->validated());
 
         return redirect()->route('admin.services.index')
             ->with('success', 'Layanan berhasil ditambahkan.');
@@ -45,12 +45,12 @@ class ServiceController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'icon' => 'required|string',
+            'icon' => 'required|string|max:255',
             'status' => 'required|in:active,inactive',
             'order' => 'required|integer|min:0'
         ]);
 
-        $service->update($request->all());
+        $service->update($request->validated());
 
         return redirect()->route('admin.services.index')
             ->with('success', 'Layanan berhasil diperbarui.');

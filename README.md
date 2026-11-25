@@ -1,66 +1,128 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Website Desa Trengguli
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Website profil dan informasi Desa Trengguli. Dibangun dengan Laravel 10 dan MySQL.
 
-## About Laravel
+## Fitur
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Halaman publik**
+- Beranda: profil desa, visi/misi, layanan, potensi, berita terbaru, galeri, kontak
+- Daftar berita + detail berita (dengan penghitung kunjungan)
+- Galeri foto dengan lightbox
+- Daftar potensi desa + detail potensi (termasuk peta Google Maps)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Panel admin** (`/admin`)
+- Login dengan rate limiting
+- Dashboard ringkasan
+- CRUD berita (draft/published, slug unik otomatis)
+- CRUD galeri
+- CRUD layanan
+- CRUD potensi desa
+- Edit profil desa & media sosial
+- Ubah password
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Kebutuhan
 
-## Learning Laravel
+- PHP 8.1 atau lebih baru dengan ekstensi `pdo_mysql`, `fileinfo`, `gd`
+- Composer
+- MySQL 8 / MariaDB
+- Node.js + npm (opsional, hanya jika ingin memakai Vite)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+> Jika `php` di terminal tidak punya `pdo_mysql`, gunakan PHP bawaan Laragon/XAMPP, misalnya:
+> `D:\laragon\bin\php\php-8.3.11-nts-Win32-vs16-x64\php.exe artisan ...`
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Instalasi
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+# 1. Install dependency PHP
+composer install
 
-## Laravel Sponsors
+# 2. Salin konfigurasi environment
+copy .env.example .env
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# 3. Buat application key
+php artisan key:generate
 
-### Premium Partners
+# 4. Buat database MySQL
+#    Nama default: trengguli_id
+mysql -u root -e "CREATE DATABASE trengguli_id CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+# 5. Jalankan migration + seeder admin
+php artisan migrate --seed
 
-## Contributing
+# 6. Buat symlink storage (wajib agar gambar tampil)
+php artisan storage:link
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Sesuaikan `DB_DATABASE`, `DB_USERNAME`, dan `DB_PASSWORD` di `.env` bila perlu.
 
-## Code of Conduct
+### Aset frontend (opsional)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Halaman publik memakai `public/css/trengguli.css` dan panel admin memakai Tailwind via CDN, jadi build Vite tidak wajib. Jika ingin memakai Vite:
 
-## Security Vulnerabilities
+```bash
+npm install
+npm run build
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Akun Admin Default
 
-## License
+| | |
+|---|---|
+| URL | `/admin/login` |
+| Email | `admin@trengguli.id` |
+| Password | `admin123` |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Penting:** segera ganti password default melalui menu **Ubah Password** setelah login pertama.
+
+## Pengujian
+
+Test memakai database terpisah `trengguli_id_test` (lihat `phpunit.xml`).
+
+```bash
+mysql -u root -e "CREATE DATABASE trengguli_id_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+php artisan test
+```
+
+Test yang tersedia mencakup halaman publik, filter berita draft/published, autentikasi admin, slug unik, validasi URL Google Maps, dan ubah password.
+
+## Struktur Singkat
+
+```
+app/Http/Controllers/          Controller publik & admin
+app/Models/                    News, Gallery, Service, Potential, Profile, User
+app/Rules/GoogleMapsUrl.php    Validasi tautan peta
+database/migrations/           Skema database
+resources/views/               Blade (publik & admin)
+routes/web.php                 Route publik
+routes/admin.php               Route admin + autentikasi
+public/css/trengguli.css       Styling halaman publik
+```
+
+## Checklist Production
+
+Sebelum deploy:
+
+1. Set di `.env`:
+   ```env
+   APP_ENV=production
+   APP_DEBUG=false
+   APP_URL=https://domain-anda.com
+   ```
+2. Ganti password admin default.
+3. Jalankan:
+   ```bash
+   php artisan migrate --force
+   php artisan storage:link
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   ```
+4. Pastikan folder `storage/` dan `bootstrap/cache/` dapat ditulis oleh web server.
+5. Arahkan document root web server ke folder `public/`.
+6. Backup database secara berkala.
+
+## Catatan
+
+- Upload gambar disimpan di `storage/app/public` dan diakses lewat symlink `public/storage`.
+- Berita hanya tampil di halaman publik jika `status = published` dan `published_at` sudah lewat (atau kosong).
+- Tabel potensi bernama `potentials` (migration lama sempat memakai nama `potential`).

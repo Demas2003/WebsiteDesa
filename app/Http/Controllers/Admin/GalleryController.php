@@ -24,7 +24,7 @@ class GalleryController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
+            'description' => 'required|string|max:255',
             'category' => 'required|string|in:kegiatan,wisata,produk,fasilitas',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'status' => 'required|in:active,inactive'
@@ -54,7 +54,7 @@ class GalleryController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
+            'description' => 'required|string|max:255',
             'category' => 'required|string|in:kegiatan,wisata,produk,fasilitas',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'status' => 'required|in:active,inactive'
